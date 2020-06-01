@@ -1,8 +1,14 @@
 const express = require("express");
 const app = express();
 const models = require("./configuracion-db");
-
+const api = require("./routes/routes")(models);
+const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.use("/api",api);
 
 app.get("/employees", async (req,res)=>{
     const varuno = await models.AuxEmployees.findAll({/*attributes: ['EmployeeId']*/});
